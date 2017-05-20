@@ -1,0 +1,94 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/resources/templates/padrao.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="main">
+        #{pessoaController.inicializarPessoaFicha()}
+        <p:remoteCommand name="rc" update="@(.pfe)" actionListener="#{pessoaController.atualizarPessoaFichaCep()}" immediate="true" process="@this"/>
+        <section class="well1">
+            <div class="container">
+                <h2>Dados cadastrais</h2>
+                <p>Preencha o formulário abaixo corretamente e em breve retornaremos o seu contato. Agradecemos desde já!</p>
+                <hr/>
+                <p:outputPanel id="mailform" styleClass="mailform">
+                    <fieldset class="row">
+                        <label class="grid_8" style="margin-top: 0px;">
+                            <span>Nome completo</span> 
+                            <p:inputText id="name" value="#{pessoaController.pessoaFicha.nome}"
+                                         label="Nome completo" required="true"/>
+                        </label>
+                        <label class="grid_4" style="margin-top: 0px;">
+                            <span>E-mail</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.email}"
+                                         label="E-mail" required="true"/>
+                        </label>
+                        <label class="grid_4">
+                            <span>Data de nascimento</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.dataNascimento}"
+                                         label="Data de nascimento" required="true"/>
+                        </label>
+                        <label class="grid_4">
+                            <span>Celular</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.celular}"/>
+                        </label>
+                        <label class="grid_4">
+                            <span>Telefone</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.telefone}"/>
+                        </label>
+                        <label class="grid_2">
+                            <span>CEP</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.cep}"
+                                         label="Cep" required="true" maxlength="9">
+                                <p:ajax event="blur" oncomplete="rc()" partialSubmit="true" process="@this"/>
+                            </p:inputText>
+                        </label>
+                        <label class="grid_8">
+                            <span>Endereço</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.endereco}"
+                                         label="Endereço" required="true" styleClass="pfe"/>
+                        </label>
+                        <label class="grid_2">
+                            <span>Número</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.numero}"
+                                         styleClass="pfe"/>
+                        </label>
+                        <label class="grid_5">
+                            <span>Bairro</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.bairro}"
+                                         label="Bairro" required="true" styleClass="pfe"/>
+                        </label>
+                        <label class="grid_5">
+                            <span>Cidade</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.cidade}"
+                                         label="Cidade" required="true" styleClass="pfe"/>
+                        </label>
+                        <label class="grid_2">
+                            <span>Estado</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.uf}"
+                                         label="Estado" required="true" styleClass="pfe"
+                                         maxlength="2" style="text-transform: uppercase;"/>
+                        </label>
+                        <label class="grid_12">
+                            <span>Complemento</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.complemento}"/>
+                        </label>
+                        <div class="mfControls grid_12">
+                            <p:commandButton styleClass="btn" value="Enviar"
+                                             actionListener="#{pessoaController.salvarPessoaFicha()}"
+                                             update="@form"/>
+                        </div>
+                    </fieldset>
+                </p:outputPanel>
+            </div>
+        </section>
+        <script type="text/javascript">
+            jQuery('.pg5').addClass('active');
+        </script>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+
+

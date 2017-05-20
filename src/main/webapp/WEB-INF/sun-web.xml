@@ -1,0 +1,4 @@
+<security-role-mapping>
+    <role-name>admin-role</role-name>
+    <group-name>admins</group-name>
+</security-role-mapping>

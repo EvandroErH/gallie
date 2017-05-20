@@ -1,0 +1,50 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/resources/templates/padrao.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:define name="main">
+        #{pessoaController.inicializarLocalizacao()}
+        <section class="well1" style="padding-bottom: 25px;">
+            <div class="container">
+                <h2>Área de atuação</h2>
+                <p>Atendemos no consignado os estados do sul – Santa Catarina, Paraná e Rio Grande Do Sul. Demais estados temos a opção de aquisição do kit para venda com preços e condições atrativas. Veja abaixo onde encontrar nossos revendedores.</p>
+            </div>
+        </section>
+        <section class="map">
+            <div id="google-map" class="map_model"/>
+            <div class="container">
+                <div style="margin: 15px;"/>
+                <h:outputText value="Revendedores autorizados:"/>
+                <br/>
+                <div style="width: 100%; padding: 10px 0;">
+                    <ul class="map_locations">
+                        <ui:repeat value="#{pessoaController.listaPessoaFicha}" var="pf">
+                            <li data-x="#{pf.latitude}" data-y="#{pf.longitude}">
+                                <p>
+                                    <div style="width: 100%; padding: 10px; margin: 2px 0; border: 1px solid #ccc;">
+                                        <p style="font-weight: bold">#{pf.nome}</p>
+                                        <div>
+                                            <h:outputText value="#{pf.endereco}, #{pf.numero} - #{pf.bairro} - #{pf.cidade}-#{pf.uf}"/>
+                                            <div/>
+                                            <h:outputText value="#{pf.telefone} - #{pf.email}"/>
+                                        </div>
+                                    </div>
+                                </p>
+                            </li>
+                        </ui:repeat>
+                    </ul>
+                </div>
+                <div style="margin: 10px;"/>
+            </div>
+        </section>
+        <script type="text/javascript">
+            jQuery('.pg4').addClass('active');
+        </script>
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+
+

@@ -1,0 +1,300 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/templates/padrao.xhtml">
+    <ui:define name="main">
+        <style type="text/css">
+            .ui-g input {
+                width: 100%;
+            }
+            .ui-g select {
+                width: 100%;
+            }
+        </style>
+        <section class="well1">
+            <div class="container">
+                <p:outputPanel styleClass="tabGeral">
+                    <p:tabView rendered="#{empty pessoaController.pessoaFicha}">
+                        <p:ajax event="tabChange" listener="#{pessoaController.onTabPessoaFichaChange}" update="@(.tabGeral)" global="false"/>
+                        <p:tab title="Cadastros pendentes" titletip="PENDENTE">
+                            <h2>Pendentes</h2>
+                            <p>Os cadastros abaixo estão aguardando a avaliação de suas informações cadastrais para iniciar as atividades de revenda:</p>
+                            <p:dataTable value="#{pessoaController.listaPessoaFicha}" var="c" paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
+                                <p:column headerText="Código" style="text-align: center; width: 50px;" sortBy="#{c.id}">
+                                    <h:outputText value="#{c.id}"/>
+                                </p:column>
+                                <p:column headerText="Nome" filterBy="#{c.nome}" sortBy="#{c.nome}">
+                                    <h:outputText value="#{c.nome}" style="text-transform: uppercase;"/>
+                                </p:column>
+                                <p:column headerText="Celular" style="text-align: center; width: 100px;" filterBy="#{c.celular}" sortBy="#{c.celular}">
+                                    <h:outputText value="#{c.celular}"/>
+                                </p:column>
+                                <p:column headerText="Cidade" style="text-align: center; width: 200px;" filterBy="#{c.cidade}" sortBy="#{c.cidade}">
+                                    <h:outputText value="#{c.cidade}"/>
+                                </p:column>
+                                <p:column headerText="Status" style="text-align: center; width: 85px;">
+                                    <h:outputText value="#{c.status}"/>
+                                </p:column>
+                                <p:column headerText="Data" style="text-align: center; width: 100px;" sortBy="#{c.id}">
+                                    <h:outputText value=" - "/>
+                                </p:column>
+                                <p:column headerText="#" style="text-align: center; width: 35px;">
+                                    <p:commandButton icon="fa-edit" actionListener="#{pessoaController.selecionarPessoaFicha(c)}" update="@(.tabGeral)"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                        <p:tab title="Cadastros aprovados" titletip="APROVADO">
+                            <h2>Aprovados</h2>
+                            <p>Listagem de cadastros aprovados para iniciar a atividade de revenda:</p>
+                            <p:dataTable value="#{pessoaController.listaPessoaFicha}" var="c" paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
+                                <p:column headerText="Código" style="text-align: center; width: 50px;" sortBy="#{c.id}">
+                                    <h:outputText value="#{c.id}"/>
+                                </p:column>
+                                <p:column headerText="Nome" filterBy="#{c.nome}" sortBy="#{c.nome}">
+                                    <h:outputText value="#{c.nome}" style="text-transform: uppercase;"/>
+                                </p:column>
+                                <p:column headerText="Celular" style="text-align: center; width: 100px;" filterBy="#{c.celular}" sortBy="#{c.celular}">
+                                    <h:outputText value="#{c.celular}"/>
+                                </p:column>
+                                <p:column headerText="Cidade" style="text-align: center; width: 200px;" filterBy="#{c.cidade}" sortBy="#{c.cidade}">
+                                    <h:outputText value="#{c.cidade}"/>
+                                </p:column>
+                                <p:column headerText="Status" style="text-align: center; width: 85px;">
+                                    <h:outputText value="#{c.status}"/>
+                                </p:column>
+                                <p:column headerText="Data" style="text-align: center; width: 100px;" sortBy="#{c.id}">
+                                    <h:outputText value=" - "/>
+                                </p:column>
+                                <p:column headerText="#" style="text-align: center; width: 35px;">
+                                    <p:commandButton icon="fa-edit" actionListener="#{pessoaController.selecionarPessoaFicha(c)}" update="@(.tabGeral)"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                        <p:tab title="Cadastros rejeitados" titletip="REJEITADO">
+                            <h2>Rejeitados</h2>
+                            <p>Listagem de cadastros não aprovados:</p>
+                            <p:dataTable value="#{pessoaController.listaPessoaFicha}" var="c" paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
+                                <p:column headerText="Código" style="text-align: center; width: 50px;" sortBy="#{c.id}">
+                                    <h:outputText value="#{c.id}"/>
+                                </p:column>
+                                <p:column headerText="Nome" filterBy="#{c.nome}" sortBy="#{c.nome}">
+                                    <h:outputText value="#{c.nome}" style="text-transform: uppercase;"/>
+                                </p:column>
+                                <p:column headerText="Celular" style="text-align: center; width: 100px;" filterBy="#{c.celular}" sortBy="#{c.celular}">
+                                    <h:outputText value="#{c.celular}"/>
+                                </p:column>
+                                <p:column headerText="Cidade" style="text-align: center; width: 200px;" filterBy="#{c.cidade}" sortBy="#{c.cidade}">
+                                    <h:outputText value="#{c.cidade}"/>
+                                </p:column>
+                                <p:column headerText="Status" style="text-align: center; width: 85px;">
+                                    <h:outputText value="#{c.status}"/>
+                                </p:column>
+                                <p:column headerText="Data" style="text-align: center; width: 100px;" sortBy="#{c.id}">
+                                    <h:outputText value=" - "/>
+                                </p:column>
+                                <p:column headerText="#" style="text-align: center; width: 35px;">
+                                    <p:commandButton icon="fa-edit" actionListener="#{pessoaController.selecionarPessoaFicha(c)}" update="@(.tabGeral)"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                        <p:tab title="Agenda" titletip="AGENDA">
+                            <p:schedule value="#{pessoaController.pessoaAgendaModel}" timeZone="GMT-3"/>
+                        </p:tab>
+                    </p:tabView>
+                    <p:tabView rendered="#{not empty pessoaController.pessoaFicha}">
+                        <p:tab title="Ficha consolidada">
+                            <div class="fichaGeral">
+                                <h3>
+                                    <h:outputText value="#{pessoaController.pessoaFicha.id}"/>
+                                    <h:outputText value=" - "/>
+                                    <h:outputText value="#{pessoaController.pessoaFicha.nome}"/>
+                                </h3>
+                                <div style="margin: 10px;"/>
+                                <p:tabView>
+                                    <p:tab title="Dados cadastrais">
+                                        <div class="ui-g">
+                                            <div class="ui-g-10">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Identificador</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.identificador}"/>
+                                            </div>
+                                            <div class="ui-g-2">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Status</span>
+                                                </div>
+                                                <h:selectOneMenu value="#{pessoaController.pessoaFicha.status}">
+                                                    <f:selectItems value="#{pessoaController.listarEnumStatusPessoa()}" var="st"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Nome completo</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.nome}"/>
+                                            </div>
+                                            <div class="ui-g-4">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Data de nascimento</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.dataNascimento}"/>
+                                            </div>
+                                            <div class="ui-g-6">
+                                                <div style="white-space: nowrap;">
+                                                    <span>CPF</span>
+                                                </div>                                        
+                                                <p:inputText value="#{pessoaController.pessoaFicha.cpf}"/>
+                                            </div>
+                                            <div class="ui-g-6">
+                                                <div style="white-space: nowrap;">
+                                                    <span>RG</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.rg}"/>
+                                            </div>
+                                            <div class="ui-g-4">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Telefone residencial</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.telefone}"/>
+                                            </div>
+                                            <div class="ui-g-4">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Celular</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.celular}"/>
+                                            </div>
+                                            <div class="ui-g-4">
+                                                <div style="white-space: nowrap;">
+                                                    <span>E-mail</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.email}"/>
+                                            </div>
+                                            <div class="ui-g-2">
+                                                <div style="white-space: nowrap;">
+                                                    <span>CEP</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.cep}"/>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Endereço</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.endereco}"/>
+                                            </div>
+                                            <div class="ui-g-2">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Nº</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.numero}"/>
+                                            </div>
+                                            <div class="ui-g-5">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Bairro</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.bairro}"/>
+                                            </div>
+                                            <div class="ui-g-5">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Cidade</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.cidade}"/>
+                                            </div>
+                                            <div class="ui-g-2">
+                                                <div style="white-space: nowrap;">
+                                                    <span>UF</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.uf}"/>
+                                            </div>
+                                            <div class="ui-g-12">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Complemento</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.complemento}"/>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Local de trabalho</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.trabalhoLocal}"/>
+                                            </div>
+                                            <div class="ui-g-4">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Telefone</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.trabalhoTelefone}"/>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Nome de um familiar</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.familiarNome}"/>
+                                            </div>
+                                            <div class="ui-g-4">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Grau de parentesco</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.familiarParentesco}"/>
+                                            </div>
+                                            <div class="ui-g-8">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Endereço</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.familiarEndereco}"/>
+                                            </div>
+                                            <div class="ui-g-4">
+                                                <div style="white-space: nowrap;">
+                                                    <span>Telefone</span>
+                                                </div>
+                                                <p:inputText value="#{pessoaController.pessoaFicha.familiarTelefone}"/>
+                                            </div>
+                                        </div>
+                                    </p:tab>
+                                    <p:tab title="Histórico de Contatos">
+                                        <p:dataTable value="#{pessoaController.pessoaFicha.listaPessoaAgenda}" var="pa">
+                                            <p:column headerText="Data Agenda">
+                                                <h:outputText value="#{pa.dataAgenda}"/>
+                                            </p:column>
+                                            <p:column headerText="Observação">
+                                                <h:outputText value="#{pa.observacao}"/>
+                                            </p:column>
+                                            <p:column headerText="Data Realizada">
+                                                <h:outputText value="#{pa.dataRealizada}"/>
+                                            </p:column>
+                                            <p:column headerText="Valor">
+                                                <h:outputText value="#{pa.valorVenda}"/>
+                                            </p:column>
+                                            <p:column headerText="Data próxima">
+                                                <h:outputText value="#{pa.dataProxima}"/>
+                                            </p:column>
+                                            <p:column headerText="Ativo">
+                                                <h:outputText value="#{pa.ativo}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:tab>
+                                </p:tabView>
+                                <div style="margin: 10px 0 0;"/>
+                                <div class="ui-g">
+                                    <div class="ui-g-10"/>
+                                    <div class="ui-g-1">
+                                        <p:commandButton actionListener="#{pessoaController.cancelarPessoaFicha()}" 
+                                                         update="@(.tabGeral)" 
+                                                         value="Voltar"/>
+                                    </div>
+                                    <div class="ui-g-1">
+                                        <p:commandButton actionListener="#{pessoaController.salvarPessoaFicha()}"
+                                                         update="@(.tabGeral,.messages)" 
+                                                         value="Salvar"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:tab>
+                    </p:tabView>
+                </p:outputPanel>
+            </div>
+        </section>
+        <script type="text/javascript">
+            jQuery('.pg0').addClass('active');
+        </script>
+    </ui:define>
+</ui:composition>
