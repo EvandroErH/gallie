@@ -21,7 +21,7 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
-<!--    <login-config>
+    <!--    <login-config>
         <auth-method>BASIC</auth-method>
         <realm-name>gallieRealm</realm-name>
     </login-config>    

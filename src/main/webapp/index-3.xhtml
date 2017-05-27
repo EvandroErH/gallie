@@ -1,35 +1,36 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
                 template="/resources/templates/padrao.xhtml">
     <ui:define name="main">
         <section class="well1">
             <div class="container">
                 <h2>Perguntas frequentes e respostas</h2>
-                <p>asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn.</p>
+                <p>Queremos ajudar você a esclarecer sua dúvida agora mesmo:</p>
                 <hr/>
                 <ul class="contact-list2 row">
                     <li class="grid_3">
-                        <h3>Contato I</h3><a href="callto:#">49 3448-0168</a>
+                        <h3>Telefone</h3><a href="callto:#">(49) 3448-0168</a>
                         <dl>
                             <dt>Segunda - Sexta:</dt>
                             <dd>8am-18pm</dd>
                         </dl>
                     </li>
                     <li class="grid_3">
-                        <h3>Contato II</h3><a href="callto:#">49 3448-0168</a>
+                        <h3>Celular</h3><a href="callto:#">(49) 99995-1385</a>
                         <dl>
                             <dt>Segunda - Sexta:</dt>
                             <dd>8am-18pm</dd>
                         </dl>
                     </li>
                     <li class="grid_3">
-                        <h3>Contato II</h3><a href="callto:#">49 3448-0168</a>
+                        <h3>Whatsapp</h3><a href="callto:#">(49) 99995-1385</a>
                         <dl>
                             <dt>Segunda - Sexta:</dt>
                             <dd>8am-18pm</dd>
                         </dl>
                     </li>
                     <li class="grid_3">
-                        <h3>Contato II</h3><a href="callto:#">49 3448-0168</a>
+                        <h3>Revenda</h3><a href="callto:#">(49) 99915-2225</a>
                         <dl>
                             <dt>Segunda - Sexta:</dt>
                             <dd>8am-18pm</dd>
@@ -37,10 +38,27 @@
                     </li>
                 </ul>
                 <hr/>
-                <p>asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn</p>
+                <h4>Envie sua dúvida ou pergunta agora mesmo</h4>
+                <p:outputPanel id="mailform" styleClass="mailform">
+                    <fieldset class="row">
+                        <label class="grid_4" style="margin-top: 0px;">
+                            <span>Telefone</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.telefone}"/>
+                        </label>
+                        <label class="grid_8" style="margin-top: 0px;">
+                            <span>E-mail</span> 
+                            <p:inputText value="#{pessoaController.pessoaFicha.email}"
+                                         label="E-mail" required="true"/>
+                        </label>
+                        <label class="grid_12">
+                            <span>Em que podemos ajudar ?</span> 
+                            <p:inputTextarea value="#{pessoaController.pessoaFicha.nome}"/>
+                        </label>
+                    </fieldset>
+                </p:outputPanel>
+                <br/>
                 <div class="btn_wr">
                     <a href="#" class="btn2" onclick="alert('em breve')">Enviar sua pergunta</a>
-                    <a href="#" class="btn" onclick="alert('em breve')">Chat Online</a>
                 </div>
             </div>
         </section>
@@ -53,8 +71,8 @@
                                 <div class="icon fa-star"></div>
                             </div>
                             <div class="box_cnt__no-flow">
-                                <h3><a href="#">Dúvida 1</a></h3>
-                                <p>aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj.</p>
+                                <h4><a href="#">Como faço para me cadastrar ?</a></h4>
+                                <p>Basta clicar <a style="font-weight: bold;" href="#{request.contextPath}/index-5.xhtml">aqui</a> e preencher o formulário com seus dados pessoais.</p>
                             </div>
                         </div>
                         <hr/>
@@ -63,29 +81,29 @@
                                 <div class="icon fa-envelope"></div>
                             </div>
                             <div class="box_cnt__no-flow">
-                                <h3><a href="#">Dúvida 2</a></h3>
-                                <p>aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj</p>
+                                <h4><a href="#">Existe um limite de tempo para revender ?</a></h4>
+                                <p>Não. Você pode ser revendedora durante o tempo que quiser.</p>
                             </div>
                         </div>
                     </li>
                     <li class="grid_6">
                         <div data-wow-delay="0.2s" class="box wow fadeInRight">
                             <div class="box_aside">
-                                <div class="icon fa-laptop"></div>
+                                <div class="icon fa-cogs"></div>
                             </div>
                             <div class="box_cnt__no-flow">
-                                <h3><a href="#">Dúvida 3</a></h3>
-                                <p>aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj.</p>
+                                <h4><a href="#">Qual o tempo para análise do cadastro ?</a></h4>
+                                <p>Em 24 horas seu cadastro será analisado e um de nossos representantes entrará em contato com você.</p>
                             </div>
                         </div>
                         <hr/>
                         <div data-wow-delay="0.4s" class="box wow fadeInRight">
                             <div class="box_aside">
-                                <div class="icon fa-cogs"></div>
+                                <div class="icon fa-laptop"></div>
                             </div>
                             <div class="box_cnt__no-flow">
-                                <h3><a href="#">Dúvida 4</a></h3>
-                                <p>aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj.</p>
+                                <h4><a href="#">Fiz o cadastro. Qual o próximo passo ?</a></h4>
+                                <p>É só aguardar o contato de nosso representante e combinar uma visita para receber seu Kit inicial.</p>
                             </div>
                         </div>
                     </li>
@@ -94,7 +112,7 @@
         </section>
         <section class="well ins5">
             <div class="container">
-                <h2>Informações adicionais</h2>
+                <h2>Outras informações</h2>
                 <div class="row off4">
                     <div class="grid_4">
                         <img src="images/img_duvidas.jpg" alt="" class="mg-add"/>
@@ -102,17 +120,66 @@
                     <div class="grid_4">
                         <ul class="marked-list">
                             <li><a href="#{request.contextPath}/index-1.xhtml">Como funciona ?</a></li>
-                            <li><a href="#{request.contextPath}/index-2.xhtml">Quero revender</a></li>
+                            <li><a href="#{request.contextPath}/index-2.xhtml">Nossos produtos</a></li>
                             <li><a href="#{request.contextPath}/index-4.xhtml">Localização</a></li>
                             <li><a href="#{request.contextPath}/index-5.xhtml">Cadastro</a></li>
                         </ul><a href="#{request.contextPath}/index-1.xhtml" class="btn">Leia mais</a>
                     </div>
                 </div>
-                <h3 class="off3 primary">titulo sobre alguma outra dúvida</h3>
+                <h3 class="off3 primary">Principais dúvidas</h3>
+                <br/>
+                <ul>
+                    <li>
+                        <p>
+                            <b>Como faço para me cadastrar ?</b><br/>
+                            Basta clicar no link “Cadastro” e preencher o formulário com seus dados pessoais.
+                        </p>
+                        <hr/>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Este site é seguro ?</b><br/>
+                            Sim. Seus dados ficarão guardados em segurança em nosso banco de dados e não serão compartilhados em nenhum outro local.
+                        </p>
+                        <hr/>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Qual o tempo para análise do meu cadastro ?</b><br/>
+                            Em 24 horas seu cadastro será analisado e um de nossos representantes entrará em contato com você.
+                        </p>
+                        <hr/>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Existe um limite de tempo para revender os produtos ?</b><br/>
+                            Não. Você pode ser revendedora durante o tempo que quiser. 
+                        </p>
+                        <hr/>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Fiz o cadastro. Qual o próximo passo ?</b><br/>
+                            É só aguardar o contato de nosso representante e combinar uma visita para receber seu Kit inicial.
+                        </p>
+                        <hr/>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Tem algum custo inicial ?</b><br/>
+                            Não. Você não terá que investir nada. Receberá seu kit e é só começar a revender.
+                        </p>
+                        <hr/>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Qual é meu lucro em cada venda ?</b><br/>
+                            Você terá um lucro de 30% sobre suas vendas.
+                        </p>
+                        <hr/>
+                    </li>
+                </ul>
                 <p>
-                    aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj
-                    <br/><br/>
-                    aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj lsfn asdkas dalskdjaslkdj aslkdjaslkdj alskdjaslkdjasiouewqoieuq woiesakldjsalj.
                 </p>
             </div>
         </section>
