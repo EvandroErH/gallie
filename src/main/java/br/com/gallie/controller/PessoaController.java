@@ -54,7 +54,7 @@ public class PessoaController implements Serializable {
     }
 
     @PostConstruct
-    private void inicializar() {
+    public void inicializar() {
         pessoaFicha = null;
         listaPessoaFicha = new ArrayList<>();
         pessoaAgendaModel = new DefaultScheduleModel();
@@ -122,7 +122,6 @@ public class PessoaController implements Serializable {
     public void listarPessoaFicha(final EnumStatusPessoa status) {
         this.statusSelecioando = status;
         this.listaPessoaFicha = pessoaBean.listarPessoaFicha(this.statusSelecioando);
-        WebUtil.redirect("/gallie/admin/contatos.xhtml");
     }
 
     public void onTabPessoaFichaChange(TabChangeEvent event) {

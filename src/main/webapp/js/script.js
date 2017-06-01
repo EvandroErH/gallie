@@ -10,18 +10,18 @@ function isIE() {
 
 /* cookie.JS
  ========================================================*/
-include('js/jquery.cookie.js');
+include('/gallie/js/jquery.cookie.js');
 
 /* Easing library
  ========================================================*/
-include('js/jquery.easing.1.3.js');
+include('/gallie/js/jquery.easing.1.3.js');
 
 /* PointerEvents  
  ========================================================*/
 ;
 (function ($) {
     if (isIE() && isIE() < 11) {
-        include('js/pointer-events.js');
+        include('/gallie/js/pointer-events.js');
         $('html').addClass('lt-ie11');
         $(document).ready(function () {
             PointerEventsPolyfill.initialize({});
@@ -35,7 +35,7 @@ include('js/jquery.easing.1.3.js');
 (function ($) {
     var o = $('html');
     if (o.hasClass('desktop')) {
-        include('js/tmstickup.js');
+        include('/gallie/js/tmstickup.js');
 
         $(document).ready(function () {
             $('#stuck_container').TMStickUp({})
@@ -49,7 +49,7 @@ include('js/jquery.easing.1.3.js');
 (function ($) {
     var o = $('html');
     if (o.hasClass('desktop')) {
-        include('js/jquery.ui.totop.js');
+        include('/gallie/js/jquery.ui.totop.js');
 
         $(document).ready(function () {
             $().UItoTop({
@@ -66,7 +66,7 @@ include('js/jquery.easing.1.3.js');
 (function ($) {
     var o = $('[data-equal-group]');
     if (o.length > 0) {
-        include('js/jquery.equalheights.js');
+        include('/gallie/js/jquery.equalheights.js');
     }
 })(jQuery);
 
@@ -76,8 +76,8 @@ include('js/jquery.easing.1.3.js');
 (function ($) {
     var o = $('html');
     if (o.hasClass('desktop')) {
-        include('js/jquery.mousewheel.min.js');
-        include('js/jquery.simplr.smoothscroll.min.js');
+        include('/gallie/js/jquery.mousewheel.min.js');
+        include('/gallie/js/jquery.simplr.smoothscroll.min.js');
 
         $(document).ready(function () {
             $.srSmoothscroll({
@@ -103,14 +103,14 @@ include('js/jquery.easing.1.3.js');
  ========================================================*/
 ;
 (function ($) {
-    include('js/superfish.js');
+    include('/gallie/js/superfish.js');
 })(jQuery);
 
 /* Navbar
  ========================================================*/
 ;
 (function ($) {
-    include('js/jquery.rd-navbar.js');
+    include('/gallie/js/jquery.rd-navbar.js');
 })(jQuery);
 
 
@@ -122,7 +122,7 @@ include('js/jquery.easing.1.3.js');
     var o = document.getElementById("google-map");
     if (o) {
         include('//maps.google.com/maps/api/js?key=AIzaSyBqFF0eccpfGD4sg0fQ-IhV5k5qyjoUsjE');
-        include('js/jquery.rd-google-map.js');
+        include('/gallie/js/jquery.rd-google-map.js');
 
         $(document).ready(function () {
             var o = $('#google-map');
@@ -144,7 +144,7 @@ include('js/jquery.easing.1.3.js');
 
     if ((navigator.userAgent.toLowerCase().indexOf('msie') == -1) || (isIE() && isIE() > 9)) {
         if (o.hasClass('desktop')) {
-            include('js/wow.js');
+            include('/gallie/js/wow.js');
 
             $(document).ready(function () {
                 new WOW().init();
@@ -159,8 +159,8 @@ include('js/jquery.easing.1.3.js');
 (function ($) {
     var o = $('#contact-form');
     if (o.length > 0) {
-        include('js/modal.js');
-        include('js/TMForm.js');
+        include('/gallie/js/modal.js');
+        include('/gallie/js/TMForm.js');
 
         if ($('#contact-form .recaptcha').length > 0) {
             include('//www.google.com/recaptcha/api/js/recaptcha_ajax.js');
@@ -221,10 +221,10 @@ document.write('<meta name="viewport" content="width=device-width,initial-scale=
     var o = $('#camera');
     if (o.length > 0) {
         if (!(isIE() && (isIE() > 9))) {
-            include('js/jquery.mobile.customized.min.js');
+            include('/gallie/js/jquery.mobile.customized.min.js');
         }
 
-        include('js/camera.js');
+        include('/gallie/js/camera.js');
 
         $(document).ready(function () {
             o.camera({
@@ -251,7 +251,7 @@ document.write('<meta name="viewport" content="width=device-width,initial-scale=
 (function ($) {
     var o = $('.owl-carousel');
     if (o.length > 0) {
-        include('js/owl.carousel.min.js');
+        include('/gallie/js/owl.carousel.min.js');
         $(document).ready(function () {
             o.owlCarousel({
                 margin: 30,
@@ -275,6 +275,5 @@ document.write('<meta name="viewport" content="width=device-width,initial-scale=
  =============================================*/
 ;
 (function ($) {
-    include('js/mailform/jquery.form.min.js');
-    include('js/mailform/jquery.rd-mailform.min.c.js');
+    include('/gallie/js/mailform/jquery.form.min.js');
 })(jQuery);

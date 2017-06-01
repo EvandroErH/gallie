@@ -19,7 +19,11 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class UsuarioController implements Serializable {
 
-    private static final String hash = "g4ll13j014s";
+    private static final String hashSenha = "g4ll13j014s";
+
+    private static final String hashUsuario = "gallie";
+
+    private String usuario;
 
     private String senha;
 
@@ -28,6 +32,7 @@ public class UsuarioController implements Serializable {
     @PostConstruct
     private void inicializar() {
         autenticado = false;
+        usuario = null;
         senha = null;
     }
 
@@ -40,24 +45,39 @@ public class UsuarioController implements Serializable {
     }
 
     public void login() {
-        if (senha != null) {
-            if (senha.equalsIgnoreCase(hash)) {
-                autenticado = true;
-                senha = null;
-                WebUtil.redirect("/gallie/admin/contatos.xhtml");
-                return;
+        if (usuario != null && senha != null) {
+            if (usuario.equalsIgnoreCase(hashUsuario)) {
+                if (senha.equalsIgnoreCase(hashSenha)) {
+                    autenticado = true;
+                    usuario = null;
+                    senha = null;
+                    
+                    WebUtil.managedBean(PessoaController.class).inicializar();
+                    WebUtil.redirect("/gallie/admin/contatos.xhtml");
+                    return;
+                }
             }
         }
         autenticado = false;
+        usuario = null;
         senha = null;
-        WebUtil.redirect("/gallie/admin/login.xhtml");
         WebUtil.messageErro("Senha inválida ou não preenchida");
+        WebUtil.redirect("/gallie/admin/login.xhtml");
     }
 
     public void logout() {
         autenticado = false;
+        usuario = null;
         senha = null;
         WebUtil.redirect("/gallie/index.xhtml");
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getSenha() {

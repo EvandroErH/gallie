@@ -6,7 +6,26 @@
     <ui:define name="main">
         <section class="well1">
             <div class="container">
-
+                <h2>Acesso administrativo</h2>
+                <p>Informe seu usuário e senha para acessar o ambiente administrativo</p>
+                <hr/>
+                <p:outputPanel id="mailform" styleClass="mailform">
+                    <fieldset class="row">
+                        <label class="grid_12" style="margin-top: 0px;">
+                            <span>Usuário</span> 
+                            <p:inputText value="#{usuarioController.usuario}" required="true"/>
+                        </label>
+                        <label class="grid_12" style="margin-top: 0px;">
+                            <span>Senha</span> 
+                            <p:password value="#{usuarioController.senha}" required="true"/>
+                        </label>
+                        <div class="mfControls grid_12">
+                            <p:commandButton styleClass="btn" value="Acessar"
+                                             actionListener="#{usuarioController.login()}"
+                                             update="@form"/>
+                        </div>
+                    </fieldset>
+                </p:outputPanel>
             </div>
         </section>
     </ui:define>

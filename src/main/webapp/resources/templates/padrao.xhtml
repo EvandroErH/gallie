@@ -6,13 +6,21 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Gallie Joias</title>
+        <meta http-equiv="pragma" content="no-cache"></meta>
+        <meta http-equiv="Expires" content="0"></meta>
+        <meta http-equiv="Content-Language" content="pt-br" />
+        <meta name="LANGUAGE" content="pt-BR" />        
         <meta charset="utf-8"/>
+        
         <link rel="stylesheet" href="#{request.contextPath}/css/grid.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/css/style.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/css/google-map.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/css/mailform.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/css/camera.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/css/owl-carousel.css"/>
+        
+        <link rel="shortcut icon" href="#{request.contextPath}/images/shortcut.ico" />
+        
         <script src="#{request.contextPath}/js/jquery.js"></script>
         <script src="#{request.contextPath}/js/jquery-migrate-1.2.1.js"></script>
         <script src="#{request.contextPath}/js/device.min.js"></script>
@@ -136,6 +144,9 @@
                             <div class="container">
                                 <div class="copyright">Galliê Joias © <span id="copyright-year"></span>
                                     <a href="#{request.contextPath}/index-6.xhtml">Política de Privacidade</a>
+                                    <p:commandLink actionListener="#{usuarioController.logout()}" 
+                                                   immediate="true" style="float: right; margin: 0 5px;" value="| Sair"
+                                                   rendered="#{usuarioController.autenticado}"/>
                                     <p:commandLink actionListener="#{usuarioController.administrar()}" 
                                                    immediate="true" style="float: right;" value="Administrar"/>
                                 </div>
@@ -158,10 +169,10 @@
                 a.src = g;
                 m.parentNode.insertBefore(a, m)
             })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-            
+
             ga('create', 'UA-96088923-1', 'auto');
             ga('send', 'pageview');
-            
+
         </script>
     </body>
 </html>
