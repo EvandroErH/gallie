@@ -19,17 +19,18 @@
         <link rel="stylesheet" href="#{request.contextPath}/css/camera.css"/>
         <link rel="stylesheet" href="#{request.contextPath}/css/owl-carousel.css"/>
         
-        <link rel="shortcut icon" href="#{request.contextPath}/images/shortcut.ico" />
+        <link rel="shortcut icon" href="#{request.contextPath}/images/favico.ico" />
         
         <script src="#{request.contextPath}/js/jquery.js"></script>
         <script src="#{request.contextPath}/js/jquery-migrate-1.2.1.js"></script>
         <script src="#{request.contextPath}/js/device.min.js"></script>
+        <script src="#{request.contextPath}/js/gallie.js"></script>
     </h:head>
     <body>
         <p:outputPanel id="geral" styleClass="geral">
             <h:form id="formGeral" prependId="false">
-                <p:outputPanel styleClass="messages">
-                    <p:growl id="messages" showDetail="true" globalOnly="true"/> 
+                <p:outputPanel styleClass="messages" autoUpdate="true">
+                    <p:growl id="messages" showDetail="true" globalOnly="true" life="500000"/> 
                 </p:outputPanel>
                 <div class="page">
                     <header>
@@ -157,6 +158,7 @@
             </h:form>
             <script src="#{request.contextPath}/js/script.js"></script>
         </p:outputPanel>
+        <ui:include src="/resources/templates/ajaxStatus.xhtml" />
         <script>
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r;

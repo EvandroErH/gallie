@@ -20,22 +20,25 @@ import javax.mail.internet.MimeMessage;
  */
 public class EmailUtil {
 
-    final static String username = "evandroerh@gmail.com";
+    final static String username = "suporte@galliejoias.com.br";
 
-    final static String password = "252960014621";
+    final static String password = "g4ll13j014s";
 
     final static Properties props = new Properties();
 
     static {
-        props.put("mail.smtp.auth", "true");
+        props.setProperty("mail.smtp.host", "smtp.zoho.com");
+        props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.setProperty("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.port", "465");
+        props.setProperty("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-    }
-
-    public static void main(String[] args) {
-        System.out.println("Teste");
-        enviar(null);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.debug", "true");
+        props.put("mail.store.protocol", "pop3");
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.debug.auth", "true");
+        props.setProperty("mail.pop3.socketFactory.fallback", "false");
     }
 
     public static boolean enviar(final Email email) {
@@ -57,6 +60,7 @@ public class EmailUtil {
 
             Transport.send(message);
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
         return true;

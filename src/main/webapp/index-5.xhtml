@@ -3,63 +3,80 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="main">
         #{pessoaController.inicializarPessoaFicha()}
-        <p:remoteCommand name="rc" update="@(.pfe)" actionListener="#{pessoaController.atualizarPessoaFichaCep()}" immediate="true" process="@this"/>
+        <p:remoteCommand id="changeCep" name="rc" update="@(.pfe)" actionListener="#{pessoaController.atualizarPessoaFichaCep()}" immediate="true" process="@this"/>
         <section class="well1">
             <div class="container">
                 <h2>Dados cadastrais</h2>
                 <p>Preencha o formulário abaixo corretamente e em breve retornaremos o seu contato. Agradecemos desde já!</p>
                 <hr/>
                 <p:outputPanel id="mailform" styleClass="mailform">
+                    <p:outputPanel rendered="#{not empty pessoaController.informacao}">
+                        <h4 style="color: green; margin: 15px 0;">#{pessoaController.informacao}</h4>
+                    </p:outputPanel>    
                     <fieldset class="row">
                         <label class="grid_8" style="margin-top: 0px;">
                             <span>Nome completo</span> 
                             <p:inputText id="name" value="#{pessoaController.pessoaFicha.nome}"
-                                         label="Nome completo" required="true"/>
+                                         label="Nome completo" required="true"
+                                         maxlength="256"/>
                         </label>
                         <label class="grid_4" style="margin-top: 0px;">
                             <span>E-mail</span> 
                             <p:inputText value="#{pessoaController.pessoaFicha.email}"
-                                         label="E-mail" required="true"/>
+                                         label="E-mail" required="true"
+                                         onkeyup="mascara(this, email);"
+                                         maxlength="256"/>
                         </label>
                         <label class="grid_4">
                             <span>Data de nascimento</span> 
                             <p:inputText value="#{pessoaController.pessoaFicha.dataNascimento}"
-                                         label="Data de nascimento" required="true"/>
+                                         label="Data de nascimento" required="true"
+                                         onkeyup="mascara(this, mask_data);"
+                                         maxlength="10"/>
                         </label>
                         <label class="grid_4">
                             <span>Celular</span> 
-                            <p:inputText value="#{pessoaController.pessoaFicha.celular}"/>
+                            <p:inputText value="#{pessoaController.pessoaFicha.celular}"
+                                         onkeyup="mascara(this, telefone);"
+                                         maxlength="15"/>
                         </label>
                         <label class="grid_4">
                             <span>Telefone</span> 
-                            <p:inputText value="#{pessoaController.pessoaFicha.telefone}"/>
+                            <p:inputText value="#{pessoaController.pessoaFicha.telefone}"
+                                         onkeyup="mascara(this, telefone);"
+                                         maxlength="15"/>
                         </label>
                         <label class="grid_2">
                             <span>CEP</span> 
                             <p:inputText value="#{pessoaController.pessoaFicha.cep}"
-                                         label="Cep" required="true" maxlength="9">
+                                         label="Cep" required="true" maxlength="9"
+                                         onkeyup="mascara(this, cep);">
                                 <p:ajax event="blur" oncomplete="rc()" partialSubmit="true" process="@this"/>
                             </p:inputText>
                         </label>
                         <label class="grid_8">
                             <span>Endereço</span> 
                             <p:inputText value="#{pessoaController.pessoaFicha.endereco}"
-                                         label="Endereço" required="true" styleClass="pfe"/>
+                                         label="Endereço" required="true" styleClass="pfe"
+                                         maxlength="256"/>
                         </label>
                         <label class="grid_2">
                             <span>Número</span> 
                             <p:inputText value="#{pessoaController.pessoaFicha.numero}"
-                                         styleClass="pfe"/>
+                                         styleClass="pfe"
+                                         maxlength="20"/>
                         </label>
                         <label class="grid_5">
                             <span>Bairro</span> 
                             <p:inputText value="#{pessoaController.pessoaFicha.bairro}"
-                                         label="Bairro" required="true" styleClass="pfe"/>
+                                         label="Bairro" required="true" styleClass="pfe"
+                                         maxlength="124"/>
                         </label>
                         <label class="grid_5">
                             <span>Cidade</span> 
                             <p:inputText value="#{pessoaController.pessoaFicha.cidade}"
-                                         label="Cidade" required="true" styleClass="pfe"/>
+                                         label="Cidade" required="true" styleClass="pfe"
+                                         maxlength="124"/>
                         </label>
                         <label class="grid_2">
                             <span>Estado</span> 
@@ -69,15 +86,17 @@
                         </label>
                         <label class="grid_12">
                             <span>Complemento</span> 
-                            <p:inputText value="#{pessoaController.pessoaFicha.complemento}"/>
+                            <p:inputText value="#{pessoaController.pessoaFicha.complemento}"
+                                         maxlength="256"/>
                         </label>
                         <div class="mfControls grid_12">
                             <p:commandButton styleClass="btn" value="Enviar"
                                              actionListener="#{pessoaController.salvarPessoaFicha()}"
-                                             update="@form"/>
+                                             update="@(.mailform)"/>
                         </div>
                     </fieldset>
                 </p:outputPanel>
+                <p:blockUI block="mailform" trigger="changeCep"/>
             </div>
         </section>
         <script type="text/javascript">

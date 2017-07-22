@@ -1,0 +1,20 @@
+<ui:fragment xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <p:ajaxStatus onstart="startStatus()"  oncomplete="endStatus()" />  
+
+    <div id="pag-loading" style="display: none;">
+        <div class="pag-loading"/>
+    </div>
+    <script>
+        function startStatus() {
+            jQuery('.global-status').addClass('ui-rodando');
+            jQuery('#pag-loading').fadeIn();
+        }
+        function endStatus() {
+            jQuery('.global-status').removeClass('ui-rodando');
+            jQuery('#pag-loading').fadeOut();
+        }
+    </script>
+</ui:fragment>

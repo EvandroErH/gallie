@@ -5,17 +5,21 @@
  */
 package br.com.gallie.model;
 
-import br.com.gallie.enums.EnumStatusPessoa;
+import br.com.gallie.enums.EnumStatus;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -40,14 +44,13 @@ public class PessoaFicha implements Serializable {
 
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
-    private EnumStatusPessoa status;
+    private EnumStatus status;
 
     @Column(name = "NOME")
     private String nome;
 
     @Column(name = "DATA_NASCIMENTO")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dataNascimento;
+    private String dataNascimento;
 
     @Column(name = "CPF")
     private String cpf;
@@ -113,6 +116,9 @@ public class PessoaFicha implements Serializable {
     @Column(name = "LONGITUDE")
     private Double longitude;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pessoaFicha", cascade = {CascadeType.ALL})
+    private List<PessoaAnotacao> anotacoes = new ArrayList();
+
     @Transient
     private List<PessoaAgenda> listaPessoaAgenda;
 
@@ -132,11 +138,11 @@ public class PessoaFicha implements Serializable {
         this.nome = nome;
     }
 
-    public Date getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -300,11 +306,11 @@ public class PessoaFicha implements Serializable {
         this.identificador = identificador;
     }
 
-    public EnumStatusPessoa getStatus() {
+    public EnumStatus getStatus() {
         return status;
     }
 
-    public void setStatus(EnumStatusPessoa status) {
+    public void setStatus(EnumStatus status) {
         this.status = status;
     }
 
@@ -330,5 +336,13 @@ public class PessoaFicha implements Serializable {
 
     public void setListaPessoaAgenda(List<PessoaAgenda> listaPessoaAgenda) {
         this.listaPessoaAgenda = listaPessoaAgenda;
+    }
+
+    public List<PessoaAnotacao> getAnotacoes() {
+        return anotacoes;
+    }
+
+    public void setAnotacoes(List<PessoaAnotacao> anotacoes) {
+        this.anotacoes = anotacoes;
     }
 }

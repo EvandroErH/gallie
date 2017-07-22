@@ -249,7 +249,7 @@
   transition: 0.3s all ease;
 }
 .owl-dots .owl-dot:hover, .owl-dots .owl-dot.active {
-  background: #997953;
+  background: #e6be7e;
 }
 .owl-dots .owl-dot + .owl-dot {
   margin-left: 9px;

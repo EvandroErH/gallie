@@ -189,7 +189,7 @@
   float: right;
   font-size: 35px;
   line-height: 88px;
-  color: #434547;
+  color: #e6be7e;
   opacity: 0.8;
 }
 @media (max-width: 1399px) {
@@ -263,7 +263,7 @@
   top: 50%;
   font-family: "FontAwesome";
   font-size: 36px;
-  color: #997953;
+  color: #fbf5e9;
   cursor: pointer;
   z-index: 10;
   -moz-transform: translateY(-50%);

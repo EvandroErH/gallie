@@ -5,7 +5,7 @@
  */
 package br.com.gallie.bean;
 
-import br.com.gallie.enums.EnumStatusPessoa;
+import br.com.gallie.enums.EnumStatus;
 import br.com.gallie.model.PessoaAgenda;
 import br.com.gallie.model.PessoaFicha;
 import com.google.code.geocoder.Geocoder;
@@ -56,6 +56,7 @@ public class PessoaBean {
             pf = atualiarGeoLocalizacao(pf);
             //
             if (pf.getId() == null) {
+                pf.setStatus(EnumStatus.PENDENTE);
                 pf.setDataRegistro(new Date());
                 em.persist(pf);
             } else {
@@ -81,7 +82,7 @@ public class PessoaBean {
         return pf;
     }
 
-    public List<PessoaFicha> listarPessoaFicha(final EnumStatusPessoa status) {
+    public List<PessoaFicha> listarPessoaFicha(final EnumStatus status) {
         return em.createQuery("select o from PessoaFicha o where o.status = :status").
                 setParameter("status", status).
                 getResultList();

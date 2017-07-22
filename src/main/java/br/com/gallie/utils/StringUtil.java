@@ -5,6 +5,8 @@
  */
 package br.com.gallie.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  *
  * @author operador
@@ -18,6 +20,10 @@ public class StringUtil {
             }
         }
         return null;
+    }
+
+    public static String capitalizar(String string) {
+        return StringUtils.capitalize(string);
     }
 
 }

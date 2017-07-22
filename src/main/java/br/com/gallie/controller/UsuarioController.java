@@ -5,6 +5,7 @@ package br.com.gallie.controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import br.com.gallie.enums.EnumProcesso;
 import br.com.gallie.utils.WebUtil;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -52,7 +53,7 @@ public class UsuarioController implements Serializable {
                     usuario = null;
                     senha = null;
                     
-                    WebUtil.managedBean(PessoaController.class).inicializar();
+                    WebUtil.managedBean(ProcessoController.class).selecionarProcesso(EnumProcesso.PESSOA, 0);
                     WebUtil.redirect("/gallie/admin/contatos.xhtml");
                     return;
                 }

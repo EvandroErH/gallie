@@ -11,201 +11,255 @@
             .ui-g select {
                 width: 100%;
             }
+            .ui-column-filter {
+                display: none!important;
+            }
         </style>
         <section class="well1">
-            <div class="container">
-                <p:outputPanel styleClass="tabGeral">
-                    <p:tabView rendered="#{empty pessoaController.pessoaFicha}">
-                        <p:ajax event="tabChange" listener="#{pessoaController.onTabPessoaFichaChange}" update="@(.tabGeral)" global="false"/>
-                        <p:tab title="Cadastros pendentes" titletip="PENDENTE">
-                            <h2>
-                                <p:commandLink actionListener="#{pessoaController.listarPessoaFicha('PENDENTE')}" update="@(.tabGeral)"
-                                               title="Clique aqui para atualizar a listagem">
-                                    <h:outputText value="Pendentes"/>
-                                </p:commandLink>
-                            </h2>
-                            <p>Os cadastros abaixo estão aguardando a avaliação de suas informações cadastrais para iniciar as atividades de revenda:</p>
-                            <p:dataTable value="#{pessoaController.listaPessoaFicha}" var="c" paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
-                                <p:column headerText="Código" style="text-align: center; width: 50px;" sortBy="#{c.id}">
+            <p:outputPanel styleClass="tabGeral">
+                <div class="container" style="margin: 0px; width: 100%;">
+                    <p:tabMenu activeIndex="#{processoController.index}">
+                        <p:menuitem value="Cadastros pendentes" actionListener="#{processoController.selecionarProcesso('PESSOA',0,'PENDENTE')}" update="@(.tabGeral)"/>
+                        <p:menuitem value="Cadastros aprovados" actionListener="#{processoController.selecionarProcesso('PESSOA',1,'APROVADO')}" update="@(.tabGeral)"/>
+                        <p:menuitem value="Cadastros rejeitados" actionListener="#{processoController.selecionarProcesso('PESSOA',2,'REJEITADO')}" update="@(.tabGeral)"/>
+                        <p:menuitem value="Perguntas e Respostas" actionListener="#{processoController.selecionarProcesso('PERGUNTA',3)}" update="@(.tabGeral)"/>
+                    </p:tabMenu>
+                </div>
+
+                <div class="container">
+                    <p:outputPanel rendered="#{processoController.processo eq 'PESSOA'}">
+                        <p:outputPanel rendered="#{empty pessoaController.pessoaFicha}">
+                            <p:dataTable value="#{pessoaController.listaPessoaFicha}" var="c" paginator="true" rows="10" rowsPerPageTemplate="10,25,50" style="width: 100%;"
+                                         widgetVar="tabelaPessoas"
+                                         emptyMessage="Nenhum resultado encontrado">
+                                <f:facet name="header">
+                                    <p:outputPanel style="float: right;">
+                                        <h:outputText value="Encontrar:&#160;&#160;" />
+                                        <p:inputText id="globalFilter" onblur="PF('tabelaPessoas').filter()" style="width:200px;" placeholder="Digite a palavra-chave"/>
+                                    </p:outputPanel>
+                                    <div style="clear: both;"/>
+                                </f:facet>
+                                <p:column headerText="Código" filterBy="#{c.id}" style="text-align: center; width: 50px;">
                                     <h:outputText value="#{c.id}"/>
                                 </p:column>
-                                <p:column headerText="Nome" filterBy="#{c.nome}" sortBy="#{c.nome}">
+                                <p:column headerText="Nome" filterBy="#{c.nome}">
                                     <h:outputText value="#{c.nome}" style="text-transform: uppercase;"/>
                                 </p:column>
-                                <p:column headerText="Celular" style="text-align: center; width: 100px;" filterBy="#{c.celular}" sortBy="#{c.celular}">
+                                <p:column headerText="Celular" filterBy="#{c.celular}" style="text-align: center; width: 120px;">
                                     <h:outputText value="#{c.celular}"/>
                                 </p:column>
-                                <p:column headerText="Cidade" style="text-align: center; width: 200px;" filterBy="#{c.cidade}" sortBy="#{c.cidade}">
+                                <p:column headerText="Cidade" filterBy="#{c.cidade}" style="text-align: center; width: 200px;">
                                     <h:outputText value="#{c.cidade}"/>
                                 </p:column>
                                 <p:column headerText="Status" style="text-align: center; width: 85px;">
                                     <h:outputText value="#{c.status}"/>
                                 </p:column>
-                                <p:column headerText="Data" style="text-align: center; width: 100px;" sortBy="#{c.id}">
+                                <p:column headerText="Data" style="text-align: center; width: 120px;">
                                     <h:outputText value=" - "/>
                                 </p:column>
                                 <p:column headerText="#" style="text-align: center; width: 35px;">
-                                    <p:commandButton icon="fa-edit" actionListener="#{pessoaController.selecionarPessoaFicha(c)}" update="@(.tabGeral)"/>
+                                    <p:commandButton icon="fa fa-edit" actionListener="#{pessoaController.selecionarPessoaFicha(c)}" update="@(.tabGeral)"/>
                                 </p:column>
                             </p:dataTable>
-                        </p:tab>
-                        <p:tab title="Cadastros aprovados" titletip="APROVADO">
-                            <h2>
-                                <p:commandLink actionListener="#{pessoaController.listarPessoaFicha('APROVADO')}" update="@(.tabGeral)"
-                                               title="Clique aqui para atualizar a listagem">
-                                    <h:outputText value="Aprovados"/>
-                                </p:commandLink>
-                            </h2>
-                            <p>Listagem de cadastros aprovados para iniciar a atividade de revenda:</p>
-                            <p:dataTable value="#{pessoaController.listaPessoaFicha}" var="c" paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
-                                <p:column headerText="Código" style="text-align: center; width: 50px;" sortBy="#{c.id}">
-                                    <h:outputText value="#{c.id}"/>
-                                </p:column>
-                                <p:column headerText="Nome" filterBy="#{c.nome}" sortBy="#{c.nome}">
-                                    <h:outputText value="#{c.nome}" style="text-transform: uppercase;"/>
-                                </p:column>
-                                <p:column headerText="Celular" style="text-align: center; width: 100px;" filterBy="#{c.celular}" sortBy="#{c.celular}">
-                                    <h:outputText value="#{c.celular}"/>
-                                </p:column>
-                                <p:column headerText="Cidade" style="text-align: center; width: 200px;" filterBy="#{c.cidade}" sortBy="#{c.cidade}">
-                                    <h:outputText value="#{c.cidade}"/>
-                                </p:column>
-                                <p:column headerText="Status" style="text-align: center; width: 85px;">
-                                    <h:outputText value="#{c.status}"/>
-                                </p:column>
-                                <p:column headerText="Data" style="text-align: center; width: 100px;" sortBy="#{c.id}">
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{not empty pessoaController.pessoaFicha}">
+                            <p:remoteCommand id="changeCep" name="rc" update="@(.pfe)" actionListener="#{pessoaController.atualizarPessoaFichaCep()}" immediate="true" process="@this"/>
+                            <p:remoteCommand name="rc" update="@(.pfe)" actionListener="#{pessoaController.atualizarPessoaFichaCep()}" immediate="true" process="@this"/>
+                            <div class="fichaGeral">
+                                <h3>
+                                    <h:outputText value="#{pessoaController.pessoaFicha.id}"/>
                                     <h:outputText value=" - "/>
+                                    <h:outputText value="#{pessoaController.pessoaFicha.nome}"/>
+                                </h3>
+                                <div style="margin: 10px;"/>
+                                <p:outputPanel id="mailform" styleClass="mailform">
+                                    <fieldset class="row">
+                                        <label class="grid_8" style="margin-top: 0px;">
+                                            <span>Nome completo</span> 
+                                            <p:inputText id="name" value="#{pessoaController.pessoaFicha.nome}"
+                                                         label="Nome completo" required="true"
+                                                         maxlength="256"/>
+                                        </label>
+                                        <label class="grid_4" style="margin-top: 0px;">
+                                            <span>E-mail</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.email}"
+                                                         label="E-mail" required="true"
+                                                         onkeyup="mascara(this, email);"
+                                                         maxlength="256"/>
+                                        </label>
+                                        <label class="grid_4">
+                                            <span>Data de nascimento</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.dataNascimento}"
+                                                         onkeyup="mascara(this, mask_data);"
+                                                         maxlength="10"/>
+                                        </label>
+                                        <label class="grid_4">
+                                            <span>Celular</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.celular}"
+                                                         onkeyup="mascara(this, telefone);"
+                                                         maxlength="15"/>
+                                        </label>
+                                        <label class="grid_4">
+                                            <span>Telefone</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.telefone}"
+                                                         onkeyup="mascara(this, telefone);"
+                                                         maxlength="15"/>
+                                        </label>
+                                        <label class="grid_2">
+                                            <span>CEP</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.cep}"
+                                                         label="Cep" required="true" maxlength="9"
+                                                         onkeyup="mascara(this, cep);">
+                                                <p:ajax event="blur" oncomplete="rc()" partialSubmit="true" process="@this"/>
+                                            </p:inputText>
+                                        </label>
+                                        <label class="grid_8">
+                                            <span>Endereço</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.endereco}"
+                                                         label="Endereço" required="true" styleClass="pfe"
+                                                         maxlength="256"/>
+                                        </label>
+                                        <label class="grid_2">
+                                            <span>Número</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.numero}"
+                                                         styleClass="pfe"
+                                                         maxlength="20"/>
+                                        </label>
+                                        <label class="grid_5">
+                                            <span>Bairro</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.bairro}"
+                                                         label="Bairro" required="true" styleClass="pfe"
+                                                         maxlength="124"/>
+                                        </label>
+                                        <label class="grid_5">
+                                            <span>Cidade</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.cidade}"
+                                                         label="Cidade" required="true" styleClass="pfe"
+                                                         maxlength="124"/>
+                                        </label>
+                                        <label class="grid_2">
+                                            <span>Estado</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.uf}"
+                                                         label="Estado" required="true" styleClass="pfe"
+                                                         maxlength="2" style="text-transform: uppercase;"/>
+                                        </label>
+                                        <label class="grid_12">
+                                            <span>Complemento</span> 
+                                            <p:inputText value="#{pessoaController.pessoaFicha.complemento}"/>
+                                        </label>
+                                        <br style="clear: both;"/>
+                                        <hr/>
+                                        <p:outputPanel styleClass="notes">
+                                            <label class="grid_2">
+                                                <span>Status</span> 
+                                                <h:selectOneMenu value="#{pessoaController.pessoaFicha.status}">
+                                                    <f:selectItem itemValue="APROVADO"/>
+                                                    <f:selectItem itemValue="PENDENTE"/>
+                                                    <f:selectItem itemValue="REJEITADO"/>
+                                                </h:selectOneMenu>
+                                            </label>                                        
+                                            <label class="grid_8">
+                                                <span>Adicionar anotação</span> 
+                                                <p:inputText value="#{pessoaController.pessoaAnotacao.observacao}"
+                                                             style="width: 100%;" maxlength="512">
+                                                    <p:ajax global="false" process="@this"/>
+                                                </p:inputText>
+                                            </label>                                        
+                                            <label class="grid_2">
+                                                <span>&#160;</span> 
+                                                <div/>
+                                                <p:commandButton value="Adicionar" update="@(.notes)" action="#{pessoaController.novaPessoaAnotacao()}" immediate="true">
+                                                    <p:collector value="#{pessoaController.pessoaAnotacao}" addTo="#{pessoaController.pessoaFicha.anotacoes}" unique="false"/>
+                                                </p:commandButton>
+                                            </label>
+                                            <label class="grid_12">
+                                                <span>Anotações realizadas</span> 
+                                                <p:dataTable value="#{pessoaController.pessoaFicha.anotacoes}" var="anotacao"
+                                                             emptyMessage="Nenhum resultado encontrado">
+                                                    <p:column headerText="Anotação">
+                                                        <h:outputText value="#{anotacao.observacao}" />
+                                                    </p:column>
+                                                    <p:column headerText="Data" style="width: 120px; text-align: center;">
+                                                        <h:outputText value="#{anotacao.dataRegistro}">
+                                                            <f:convertDateTime/>
+                                                        </h:outputText>
+                                                    </p:column>
+                                                    <p:column headerText="#" style="text-align: center; width: 35px;">
+                                                        <p:commandLink update="@(.notes)" process="@(.notes)">
+                                                            <span class="fa fa-remove"/>
+                                                            <p:collector value="#{anotacao}" removeFrom="#{pessoaController.pessoaFicha.anotacoes}" unique="false" />
+                                                        </p:commandLink>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </label>
+                                        </p:outputPanel>
+                                        <div class="mfControls grid_12">
+                                            <p:commandButton actionListener="#{pessoaController.cancelarPessoaFicha()}" 
+                                                             update="@(.tabGeral)" 
+                                                             styleClass="btn" value="Voltar"
+                                                             immediate="true"
+                                                             style="margin-right: 10px;"/>
+                                            <p:commandButton actionListener="#{pessoaController.salvarPessoaFicha()}"
+                                                             update="@(.tabGeral,.messages)" 
+                                                             styleClass="btn" value="Salvar"/>
+                                        </div>
+                                    </fieldset>
+                                </p:outputPanel>
+                                <p:blockUI block="mailform" trigger="changeCep"/>
+                            </div>
+                        </p:outputPanel>      
+                    </p:outputPanel>      
+                    <p:outputPanel rendered="#{processoController.processo eq 'PERGUNTA'}">
+                        <p:outputPanel rendered="#{empty duvidaController.duvidas}">
+                            <p:dataTable value="#{duvidaController.listaDuvidasGeral}" var="d" paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
+                                <p:column headerText="Código" style="text-align: center; width: 50px;">
+                                    <h:outputText value="#{d.id}"/>
+                                </p:column>
+                                <p:column headerText="Nome">
+                                    <h:outputText value="#{d.nome}" style="text-transform: uppercase;"/>
+                                </p:column>
+                                <p:column headerText="Telefone" style="text-align: center; width: 100px;">
+                                    <h:outputText value="#{d.telefone}"/>
+                                </p:column>
+                                <p:column headerText="Pergunta">
+                                    <h:outputText value="#{d.mensagem}"/>
+                                </p:column>
+                                <p:column headerText="Data" style="text-align: center; width: 100px;">
+                                    <h:outputText value="#{d.dataRegistro}">
+                                        <f:convertDateTime/>
+                                    </h:outputText>
                                 </p:column>
                                 <p:column headerText="#" style="text-align: center; width: 35px;">
-                                    <p:commandButton icon="fa-edit" actionListener="#{pessoaController.selecionarPessoaFicha(c)}" update="@(.tabGeral)"/>
+                                    <p:commandButton icon="fa fa-edit" actionListener="#{duvidaController.selecionarDuvidas(d)}" update="@(.tabGeral)"/>
                                 </p:column>
                             </p:dataTable>
-                        </p:tab>
-                        <p:tab title="Cadastros rejeitados" titletip="REJEITADO">
-                            <h2>
-                                <p:commandLink actionListener="#{pessoaController.listarPessoaFicha('REJEITADO')}" update="@(.tabGeral)"
-                                               title="Clique aqui para atualizar a listagem">
-                                    <h:outputText value="Rejeitados"/>
-                                </p:commandLink>
-                            </h2>
-                            <p>Listagem de cadastros não aprovados:</p>
-                            <p:dataTable value="#{pessoaController.listaPessoaFicha}" var="c" paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
-                                <p:column headerText="Código" style="text-align: center; width: 50px;" sortBy="#{c.id}">
-                                    <h:outputText value="#{c.id}"/>
-                                </p:column>
-                                <p:column headerText="Nome" filterBy="#{c.nome}" sortBy="#{c.nome}">
-                                    <h:outputText value="#{c.nome}" style="text-transform: uppercase;"/>
-                                </p:column>
-                                <p:column headerText="Celular" style="text-align: center; width: 100px;" filterBy="#{c.celular}" sortBy="#{c.celular}">
-                                    <h:outputText value="#{c.celular}"/>
-                                </p:column>
-                                <p:column headerText="Cidade" style="text-align: center; width: 200px;" filterBy="#{c.cidade}" sortBy="#{c.cidade}">
-                                    <h:outputText value="#{c.cidade}"/>
-                                </p:column>
-                                <p:column headerText="Status" style="text-align: center; width: 85px;">
-                                    <h:outputText value="#{c.status}"/>
-                                </p:column>
-                                <p:column headerText="Data" style="text-align: center; width: 100px;" sortBy="#{c.id}">
+                        </p:outputPanel>
+                        <p:outputPanel rendered="#{not empty duvidaController.duvidas}">
+                            <div class="fichaGeral">
+                                <h3>
+                                    <h:outputText value="123"/>
                                     <h:outputText value=" - "/>
-                                </p:column>
-                                <p:column headerText="#" style="text-align: center; width: 35px;">
-                                    <p:commandButton icon="fa-edit" actionListener="#{pessoaController.selecionarPessoaFicha(c)}" update="@(.tabGeral)"/>
-                                </p:column>
-                            </p:dataTable>
-                        </p:tab>
-                        <p:tab title="Agenda" titletip="AGENDA">
-                            <p:schedule value="#{pessoaController.pessoaAgendaModel}" timeZone="GMT-3"/>
-                        </p:tab>
-                    </p:tabView>
-                    
-                    <p:outputPanel rendered="#{not empty pessoaController.pessoaFicha}">
-                        <p:remoteCommand name="rc" update="@(.pfe)" actionListener="#{pessoaController.atualizarPessoaFichaCep()}" immediate="true" process="@this"/>
-                        
-                        <div class="fichaGeral">
-                            <h3>
-                                <h:outputText value="#{pessoaController.pessoaFicha.id}"/>
-                                <h:outputText value=" - "/>
-                                <h:outputText value="#{pessoaController.pessoaFicha.nome}"/>
-                            </h3>
-                            <div style="margin: 10px;"/>
-                            <p:outputPanel id="mailform" styleClass="mailform">
-                                <fieldset class="row">
-                                    <label class="grid_8" style="margin-top: 0px;">
-                                        <span>Nome completo</span> 
-                                        <p:inputText id="name" value="#{pessoaController.pessoaFicha.nome}"
-                                                     label="Nome completo" required="true"/>
-                                    </label>
-                                    <label class="grid_4" style="margin-top: 0px;">
-                                        <span>E-mail</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.email}"
-                                                     label="E-mail" required="true"/>
-                                    </label>
-                                    <label class="grid_4">
-                                        <span>Data de nascimento</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.dataNascimento}"
-                                                     label="Data de nascimento" required="true"/>
-                                    </label>
-                                    <label class="grid_4">
-                                        <span>Celular</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.celular}"/>
-                                    </label>
-                                    <label class="grid_4">
-                                        <span>Telefone</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.telefone}"/>
-                                    </label>
-                                    <label class="grid_2">
-                                        <span>CEP</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.cep}"
-                                                     label="Cep" required="true" maxlength="9">
-                                            <p:ajax event="blur" oncomplete="rc()" partialSubmit="true" process="@this"/>
-                                        </p:inputText>
-                                    </label>
-                                    <label class="grid_8">
-                                        <span>Endereço</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.endereco}"
-                                                     label="Endereço" required="true" styleClass="pfe"/>
-                                    </label>
-                                    <label class="grid_2">
-                                        <span>Número</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.numero}"
-                                                     styleClass="pfe"/>
-                                    </label>
-                                    <label class="grid_5">
-                                        <span>Bairro</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.bairro}"
-                                                     label="Bairro" required="true" styleClass="pfe"/>
-                                    </label>
-                                    <label class="grid_5">
-                                        <span>Cidade</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.cidade}"
-                                                     label="Cidade" required="true" styleClass="pfe"/>
-                                    </label>
-                                    <label class="grid_2">
-                                        <span>Estado</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.uf}"
-                                                     label="Estado" required="true" styleClass="pfe"
-                                                     maxlength="2" style="text-transform: uppercase;"/>
-                                    </label>
-                                    <label class="grid_12">
-                                        <span>Complemento</span> 
-                                        <p:inputText value="#{pessoaController.pessoaFicha.complemento}"/>
-                                    </label>
-                                    <div class="mfControls grid_12" style="margin-top: 0px;">
-                                        <p:commandButton actionListener="#{pessoaController.cancelarPessoaFicha()}" 
+                                    <h:outputText value="456"/>
+                                </h3>
+                                <div style="margin: 10px;"/>
+                                <p:outputPanel styleClass="mailform">
+                                    Teste
+                                    <div class="mfControls grid_12">
+                                        <p:commandButton actionListener="#{duvidaController.inicializar()}" 
                                                          update="@(.tabGeral)" 
                                                          styleClass="btn" value="Voltar"
                                                          immediate="true"
                                                          style="margin-right: 10px;"/>
-                                        <p:commandButton actionListener="#{pessoaController.salvarPessoaFicha()}"
+                                        <p:commandButton actionListener="#{duvidaController.atualizarDuvidas()}"
                                                          update="@(.tabGeral,.messages)" 
                                                          styleClass="btn" value="Salvar"/>
                                     </div>
-                                </fieldset>
-                            </p:outputPanel>                                
-                        </div>
+                                </p:outputPanel>
+                            </div>
+                        </p:outputPanel>
                     </p:outputPanel>
-                </p:outputPanel>
-            </div>
+                </div>
+            </p:outputPanel>
         </section>
         <script type="text/javascript">
             jQuery('.pg0').addClass('active');

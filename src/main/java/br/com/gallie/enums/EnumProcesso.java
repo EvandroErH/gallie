@@ -9,11 +9,10 @@ package br.com.gallie.enums;
  *
  * @author operador
  */
-public enum EnumStatusPessoa {
+public enum EnumProcesso {
 
-    PENDENTE,
-    APROVADO,
-    REJEITADO,
-    AGENDA
+    PESSOA,
+    PERGUNTA,
+    AGENDA;
 
 }

@@ -2,6 +2,8 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/resources/templates/padrao.xhtml">
     <ui:define name="main">
+        #{duvidaController.inicializar()}
+
         <section class="well1">
             <div class="container">
                 <h2>Perguntas frequentes e respostas</h2>
@@ -10,55 +12,55 @@
                 <ul class="contact-list2 row">
                     <li class="grid_3">
                         <h3>Telefone</h3><a href="callto:#">(49) 3448-0168</a>
-                        <dl>
-                            <dt>Segunda - Sexta:</dt>
-                            <dd>8am-18pm</dd>
-                        </dl>
                     </li>
                     <li class="grid_3">
                         <h3>Celular</h3><a href="callto:#">(49) 99995-1385</a>
-                        <dl>
-                            <dt>Segunda - Sexta:</dt>
-                            <dd>8am-18pm</dd>
-                        </dl>
                     </li>
                     <li class="grid_3">
                         <h3>Whatsapp</h3><a href="callto:#">(49) 99995-1385</a>
-                        <dl>
-                            <dt>Segunda - Sexta:</dt>
-                            <dd>8am-18pm</dd>
-                        </dl>
                     </li>
                     <li class="grid_3">
                         <h3>Revenda</h3><a href="callto:#">(49) 99915-2225</a>
-                        <dl>
-                            <dt>Segunda - Sexta:</dt>
-                            <dd>8am-18pm</dd>
-                        </dl>
                     </li>
                 </ul>
                 <hr/>
                 <h4>Envie sua dúvida ou pergunta agora mesmo</h4>
                 <p:outputPanel id="mailform" styleClass="mailform">
+                    <p:outputPanel rendered="#{not empty duvidaController.informacao}">
+                        <h4 style="color: green; margin: 15px 0;">#{duvidaController.informacao}</h4>
+                    </p:outputPanel>                
                     <fieldset class="row">
                         <label class="grid_4" style="margin-top: 0px;">
-                            <span>Telefone</span> 
-                            <p:inputText value="#{pessoaController.pessoaFicha.telefone}"/>
+                            <span>Nome</span> 
+                            <p:inputText value="#{duvidaController.nome}"
+                                         label="Nome" required="true"
+                                         maxlength="256"/>
                         </label>
-                        <label class="grid_8" style="margin-top: 0px;">
+                        <label class="grid_4" style="margin-top: 0px;">
+                            <span>Telefone</span> 
+                            <p:inputText value="#{duvidaController.telefone}"
+                                         label="Telefone" required="true"
+                                         onkeyup="mascara(this, telefone);"
+                                         maxlength="15"/>
+                        </label>
+                        <label class="grid_4" style="margin-top: 0px;">
                             <span>E-mail</span> 
-                            <p:inputText value="#{pessoaController.pessoaFicha.email}"
-                                         label="E-mail" required="true"/>
+                            <p:inputText value="#{duvidaController.email}"
+                                         label="E-mail" required="false"
+                                         onkeyup="mascara(this, email);"
+                                         maxlength="256"/>
                         </label>
                         <label class="grid_12">
                             <span>Em que podemos ajudar ?</span> 
-                            <p:inputTextarea value="#{pessoaController.pessoaFicha.nome}"/>
+                            <p:inputTextarea value="#{duvidaController.mensagem}" required="true" maxlength="5000"/>
                         </label>
                     </fieldset>
                 </p:outputPanel>
                 <br/>
                 <div class="btn_wr">
-                    <a href="#" class="btn2" onclick="alert('em breve')">Enviar sua pergunta</a>
+                    <p:commandButton styleClass="btn" value="Enviar sua pergunta"
+                                     actionListener="#{duvidaController.salvarDuvidas()}"
+                                     update="@(.mailform)"/>
                 </div>
             </div>
         </section>

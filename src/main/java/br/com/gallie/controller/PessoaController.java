@@ -8,21 +8,20 @@ package br.com.gallie.controller;
 import br.com.gallie.bean.ConsultaCepBean;
 import br.com.gallie.bean.PessoaBean;
 import br.com.gallie.classes.ConsultaCep;
-import br.com.gallie.enums.EnumStatusPessoa;
+import br.com.gallie.enums.EnumStatus;
 import br.com.gallie.model.PessoaAgenda;
+import br.com.gallie.model.PessoaAnotacao;
 import br.com.gallie.model.PessoaFicha;
+import br.com.gallie.utils.NotificacaoUtil;
 import br.com.gallie.utils.WebUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
@@ -43,11 +42,13 @@ public class PessoaController implements Serializable {
 
     private PessoaFicha pessoaFicha;
 
+    private PessoaAnotacao pessoaAnotacao;
+
     private List<PessoaFicha> listaPessoaFicha;
 
-    private EnumStatusPessoa statusSelecioando = EnumStatusPessoa.PENDENTE;
-
     private ScheduleModel pessoaAgendaModel;
+
+    private String informacao;
 
     public PessoaController() {
         inicializar();
@@ -56,23 +57,38 @@ public class PessoaController implements Serializable {
     @PostConstruct
     public void inicializar() {
         pessoaFicha = null;
+        pessoaAnotacao = null;
         listaPessoaFicha = new ArrayList<>();
         pessoaAgendaModel = new DefaultScheduleModel();
     }
 
     public void inicializarPessoaFicha() {
+        this.informacao = null;
         pessoaFicha = new PessoaFicha();
     }
-    
+
     public void inicializarLocalizacao() {
-        this.listaPessoaFicha = pessoaBean.listarPessoaFicha(EnumStatusPessoa.APROVADO);
+        this.listaPessoaFicha = pessoaBean.listarPessoaFicha(EnumStatus.APROVADO);
     }
 
     public void salvarPessoaFicha() {
         try {
+            this.informacao = null;
+            boolean novoCadastro = pessoaFicha.getId() == null;
+            //
             pessoaBean.salvarPessoaFicha(pessoaFicha);
-            this.pessoaFicha = null;
-            listarPessoaFicha(this.statusSelecioando);
+            // Enviar notificação de interação
+            if (novoCadastro) {
+                NotificacaoUtil.notificarCadastro(pessoaFicha);
+                //
+                this.informacao = "Seu cadastro foi registrado, aguarde que entrare-mos em contato com você "
+                        + "o mais breve possível.";
+                //
+            }
+            pessoaFicha = null;
+            final ProcessoController pc = WebUtil.managedBean(ProcessoController.class);
+            pc.selecionarProcesso(pc.getProcesso(), pc.getIndex(), pc.getStatus());
+            //
             WebUtil.messageInfo("Realizado com sucesso");
         } catch (Exception ex) {
             WebUtil.messageErro(ex.getMessage());
@@ -82,6 +98,8 @@ public class PessoaController implements Serializable {
     public void selecionarPessoaFicha(final PessoaFicha pf) {
         this.pessoaFicha = pf;
         this.pessoaFicha.setListaPessoaAgenda(pessoaBean.listarPessoaAgenda(pf, true));
+        //
+        novaPessoaAnotacao();
         //
         pessoaAgendaModel = new DefaultScheduleModel();
         if (this.pessoaFicha.getListaPessoaAgenda() != null) {
@@ -119,27 +137,13 @@ public class PessoaController implements Serializable {
         this.pessoaFicha = null;
     }
 
-    public void listarPessoaFicha(final EnumStatusPessoa status) {
-        this.statusSelecioando = status;
-        this.listaPessoaFicha = pessoaBean.listarPessoaFicha(this.statusSelecioando);
+    public void novaPessoaAnotacao() {
+        this.pessoaAnotacao = new PessoaAnotacao();
+        this.pessoaAnotacao.setPessoaFicha(pessoaFicha);
     }
 
-    public void onTabPessoaFichaChange(TabChangeEvent event) {
-        this.statusSelecioando = EnumStatusPessoa.valueOf(event.getTab().getTitletip());
-
-        final Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        switch (statusSelecioando) {
-            case AGENDA:
-                this.pessoaAgendaModel = new DefaultScheduleModel();
-                for (int i = 0; i < 10; i++) {
-                    this.pessoaAgendaModel.addEvent(new DefaultScheduleEvent("Pasta " + i, c.getTime(), c.getTime()));
-                    c.add(Calendar.DAY_OF_MONTH, 1);
-                }
-                break;
-            default:
-                this.listaPessoaFicha = pessoaBean.listarPessoaFicha(this.statusSelecioando);
-        }
+    public void listarPessoas(final EnumStatus status) {
+        this.listaPessoaFicha = pessoaBean.listarPessoaFicha(status);
     }
 
     public PessoaFicha getPessoaFicha() {
@@ -150,20 +154,20 @@ public class PessoaController implements Serializable {
         this.pessoaFicha = pessoaFicha;
     }
 
+    public PessoaAnotacao getPessoaAnotacao() {
+        return pessoaAnotacao;
+    }
+
+    public void setPessoaAnotacao(PessoaAnotacao pessoaAnotacao) {
+        this.pessoaAnotacao = pessoaAnotacao;
+    }
+
     public List<PessoaFicha> getListaPessoaFicha() {
         return listaPessoaFicha;
     }
 
     public void setListaPessoaFicha(List<PessoaFicha> listaPessoaFicha) {
         this.listaPessoaFicha = listaPessoaFicha;
-    }
-
-    public EnumStatusPessoa getStatusSelecioando() {
-        return statusSelecioando;
-    }
-
-    public void setStatusSelecioando(EnumStatusPessoa statusSelecioando) {
-        this.statusSelecioando = statusSelecioando;
     }
 
     public ScheduleModel getPessoaAgendaModel() {
@@ -174,8 +178,15 @@ public class PessoaController implements Serializable {
         this.pessoaAgendaModel = pessoaAgendaModel;
     }
 
-    public List<EnumStatusPessoa> listarEnumStatusPessoa() {
-        return Arrays.asList(EnumStatusPessoa.values());
+    public String getInformacao() {
+        return informacao;
     }
 
+    public void setInformacao(String informacao) {
+        this.informacao = informacao;
+    }
+
+    public List<EnumStatus> listarEnumStatusPessoa() {
+        return Arrays.asList(EnumStatus.values());
+    }
 }
