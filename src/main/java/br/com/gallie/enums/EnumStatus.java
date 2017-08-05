@@ -11,7 +11,19 @@ package br.com.gallie.enums;
  */
 public enum EnumStatus {
 
-    PENDENTE,
-    APROVADO,
-    REJEITADO;
+    TODOS("#999"),
+    PENDENTE("#e6be7e"),
+    APROVADO("#00cc00"),
+    REJEITADO("#ff0000");
+
+    private final String color;
+
+    private EnumStatus(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
 }

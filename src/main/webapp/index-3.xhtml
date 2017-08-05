@@ -131,55 +131,15 @@
                 <h3 class="off3 primary">Principais dúvidas</h3>
                 <br/>
                 <ul>
-                    <li>
-                        <p>
-                            <b>Como faço para me cadastrar ?</b><br/>
-                            Basta clicar no link “Cadastro” e preencher o formulário com seus dados pessoais.
-                        </p>
-                        <hr/>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Este site é seguro ?</b><br/>
-                            Sim. Seus dados ficarão guardados em segurança em nosso banco de dados e não serão compartilhados em nenhum outro local.
-                        </p>
-                        <hr/>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Qual o tempo para análise do meu cadastro ?</b><br/>
-                            Em 24 horas seu cadastro será analisado e um de nossos representantes entrará em contato com você.
-                        </p>
-                        <hr/>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Existe um limite de tempo para revender os produtos ?</b><br/>
-                            Não. Você pode ser revendedora durante o tempo que quiser. 
-                        </p>
-                        <hr/>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Fiz o cadastro. Qual o próximo passo ?</b><br/>
-                            É só aguardar o contato de nosso representante e combinar uma visita para receber seu Kit inicial.
-                        </p>
-                        <hr/>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Tem algum custo inicial ?</b><br/>
-                            Não. Você não terá que investir nada. Receberá seu kit e é só começar a revender.
-                        </p>
-                        <hr/>
-                    </li>
-                    <li>
-                        <p>
-                            <b>Qual é meu lucro em cada venda ?</b><br/>
-                            Você terá um lucro de 30% sobre suas vendas.
-                        </p>
-                        <hr/>
-                    </li>
+                    <p:repeat value="#{duvidaController.listaDuvidasVisivel}" var="dv">
+                        <li>
+                            <p>
+                                <b>#{dv.mensagem}</b><br/>
+                                #{dv.resposta}
+                            </p>
+                            <hr/>
+                        </li>
+                    </p:repeat>
                 </ul>
                 <p>
                 </p>

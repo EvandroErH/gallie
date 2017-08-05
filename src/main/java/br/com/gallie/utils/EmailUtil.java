@@ -41,28 +41,33 @@ public class EmailUtil {
         props.setProperty("mail.pop3.socketFactory.fallback", "false");
     }
 
-    public static boolean enviar(final Email email) {
-        try {
-            Session session = Session.getInstance(props,
-                    new javax.mail.Authenticator() {
+    public static void enviar(final Email email) {
+        Thread t = new Thread(new Runnable() {
 
-                        @Override
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
-                        }
-                    });
+            @Override
+            public void run() {
+                try {
+                    Session session = Session.getInstance(props,
+                            new javax.mail.Authenticator() {
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(email.getDe()));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email.getPara()));
-            message.setSubject(email.getAssunto());
-            message.setText(email.getMensagem().toString());
+                                @Override
+                                protected PasswordAuthentication getPasswordAuthentication() {
+                                    return new PasswordAuthentication(username, password);
+                                }
+                            });
 
-            Transport.send(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+                    Message message = new MimeMessage(session);
+                    message.setFrom(new InternetAddress(email.getDe()));
+                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email.getPara()));
+                    message.setSubject(email.getAssunto());
+                    message.setText(email.getMensagem().toString());
+
+                    Transport.send(message);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
     }
 }

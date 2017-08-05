@@ -14,15 +14,22 @@
             .ui-column-filter {
                 display: none!important;
             }
+            .tableManager td {
+                vertical-align: middle!important;
+            }
+            .tableManager td i {
+                color: #999;
+            }
         </style>
         <section class="well1">
             <p:outputPanel styleClass="tabGeral">
                 <div class="container" style="margin: 0px; width: 100%;">
                     <p:tabMenu activeIndex="#{processoController.index}">
-                        <p:menuitem value="Cadastros pendentes" actionListener="#{processoController.selecionarProcesso('PESSOA',0,'PENDENTE')}" update="@(.tabGeral)"/>
-                        <p:menuitem value="Cadastros aprovados" actionListener="#{processoController.selecionarProcesso('PESSOA',1,'APROVADO')}" update="@(.tabGeral)"/>
-                        <p:menuitem value="Cadastros rejeitados" actionListener="#{processoController.selecionarProcesso('PESSOA',2,'REJEITADO')}" update="@(.tabGeral)"/>
-                        <p:menuitem value="Perguntas e Respostas" actionListener="#{processoController.selecionarProcesso('PERGUNTA',3)}" update="@(.tabGeral)"/>
+                        <p:menuitem value="Todos os cadastros" actionListener="#{processoController.selecionarProcesso('PESSOA',0,'TODOS')}" update="@(.tabGeral)"/>
+                        <p:menuitem value="Cadastros pendentes" actionListener="#{processoController.selecionarProcesso('PESSOA',1,'PENDENTE')}" update="@(.tabGeral)"/>
+                        <p:menuitem value="Cadastros aprovados" actionListener="#{processoController.selecionarProcesso('PESSOA',2,'APROVADO')}" update="@(.tabGeral)"/>
+                        <p:menuitem value="Cadastros rejeitados" actionListener="#{processoController.selecionarProcesso('PESSOA',3,'REJEITADO')}" update="@(.tabGeral)"/>
+                        <p:menuitem value="Perguntas e Respostas" actionListener="#{processoController.selecionarProcesso('PERGUNTA',4)}" update="@(.tabGeral)"/>
                     </p:tabMenu>
                 </div>
 
@@ -31,7 +38,8 @@
                         <p:outputPanel rendered="#{empty pessoaController.pessoaFicha}">
                             <p:dataTable value="#{pessoaController.listaPessoaFicha}" var="c" paginator="true" rows="10" rowsPerPageTemplate="10,25,50" style="width: 100%;"
                                          widgetVar="tabelaPessoas"
-                                         emptyMessage="Nenhum resultado encontrado">
+                                         emptyMessage="Nenhum resultado encontrado"
+                                         styleClass="tableManager">
                                 <f:facet name="header">
                                     <p:outputPanel style="float: right;">
                                         <h:outputText value="Encontrar:&#160;&#160;" />
@@ -55,7 +63,14 @@
                                     <h:outputText value="#{c.status}"/>
                                 </p:column>
                                 <p:column headerText="Data" style="text-align: center; width: 120px;">
-                                    <h:outputText value=" - "/>
+                                    <h:outputText value="#{c.dataRegistro}">
+                                        <f:convertDateTime type="date" dateStyle="short" locale="pt_BR" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm:ss"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#" style="text-align: center; width: 35px; vertical-align: middle;">
+                                    <i class="fa fa-circle" 
+                                       style="font-size: 25px; color: #{c.status.color};"
+                                       title="Status #{c.status}"/>
                                 </p:column>
                                 <p:column headerText="#" style="text-align: center; width: 35px;">
                                     <p:commandButton icon="fa fa-edit" actionListener="#{pessoaController.selecionarPessoaFicha(c)}" update="@(.tabGeral)"/>
@@ -70,6 +85,10 @@
                                     <h:outputText value="#{pessoaController.pessoaFicha.id}"/>
                                     <h:outputText value=" - "/>
                                     <h:outputText value="#{pessoaController.pessoaFicha.nome}"/>
+                                    <div/>
+                                    <h:outputText value="#{pessoaController.pessoaFicha.dataRegistro}">
+                                        <f:convertDateTime type="date" dateStyle="short" locale="pt_BR" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm:ss"/>
+                                    </h:outputText>
                                 </h3>
                                 <div style="margin: 10px;"/>
                                 <p:outputPanel id="mailform" styleClass="mailform">
@@ -150,7 +169,7 @@
                                         <br style="clear: both;"/>
                                         <hr/>
                                         <p:outputPanel styleClass="notes">
-                                            <label class="grid_2">
+                                            <label class="grid_12">
                                                 <span>Status</span> 
                                                 <h:selectOneMenu value="#{pessoaController.pessoaFicha.status}">
                                                     <f:selectItem itemValue="APROVADO"/>
@@ -158,7 +177,17 @@
                                                     <f:selectItem itemValue="REJEITADO"/>
                                                 </h:selectOneMenu>
                                             </label>                                        
+                                            <label class="grid_2">
+                                                <span>Latidude</span> 
+                                                <p:inputText value="#{pessoaController.pessoaFicha.latitude}"/>
+                                            </label>                                        
+                                            <label class="grid_2">
+                                                <span>Longitude</span> 
+                                                <p:inputText value="#{pessoaController.pessoaFicha.longitude}"/>
+                                            </label>                                        
                                             <label class="grid_8">
+                                            </label>                                        
+                                            <label class="grid_10">
                                                 <span>Adicionar anotação</span> 
                                                 <p:inputText value="#{pessoaController.pessoaAnotacao.observacao}"
                                                              style="width: 100%;" maxlength="512">
@@ -175,13 +204,14 @@
                                             <label class="grid_12">
                                                 <span>Anotações realizadas</span> 
                                                 <p:dataTable value="#{pessoaController.pessoaFicha.anotacoes}" var="anotacao"
-                                                             emptyMessage="Nenhum resultado encontrado">
+                                                             emptyMessage="Nenhum resultado encontrado"
+                                                             styleClass="tableManager">
                                                     <p:column headerText="Anotação">
                                                         <h:outputText value="#{anotacao.observacao}" />
                                                     </p:column>
-                                                    <p:column headerText="Data" style="width: 120px; text-align: center;">
+                                                    <p:column headerText="Data" style="width: 175px; text-align: center;">
                                                         <h:outputText value="#{anotacao.dataRegistro}">
-                                                            <f:convertDateTime/>
+                                                            <f:convertDateTime type="date" dateStyle="short" locale="pt_BR" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm:ss"/>
                                                         </h:outputText>
                                                     </p:column>
                                                     <p:column headerText="#" style="text-align: center; width: 35px;">
@@ -200,7 +230,7 @@
                                                              immediate="true"
                                                              style="margin-right: 10px;"/>
                                             <p:commandButton actionListener="#{pessoaController.salvarPessoaFicha()}"
-                                                             update="@(.tabGeral,.messages)" 
+                                                             update=":formGeral" 
                                                              styleClass="btn" value="Salvar"/>
                                         </div>
                                     </fieldset>
@@ -211,23 +241,38 @@
                     </p:outputPanel>      
                     <p:outputPanel rendered="#{processoController.processo eq 'PERGUNTA'}">
                         <p:outputPanel rendered="#{empty duvidaController.duvidas}">
-                            <p:dataTable value="#{duvidaController.listaDuvidasGeral}" var="d" paginator="true" rows="10" rowsPerPageTemplate="10,25,50">
+                            <p:dataTable value="#{duvidaController.listaDuvidasGeral}" var="d" paginator="true" rows="10" rowsPerPageTemplate="10,25,50" style="width: 100%;"
+                                         widgetVar="tabelaDuvidas"
+                                         emptyMessage="Nenhum resultado encontrado"
+                                         styleClass="tableManager">
+                                <f:facet name="header">
+                                    <p:outputPanel style="float: right;">
+                                        <h:outputText value="Encontrar:&#160;&#160;" />
+                                        <p:inputText id="globalFilter" onblur="PF('tabelaDuvidas').filter()" style="width:200px;" placeholder="Digite a palavra-chave"/>
+                                    </p:outputPanel>
+                                    <div style="clear: both;"/>
+                                </f:facet>
                                 <p:column headerText="Código" style="text-align: center; width: 50px;">
                                     <h:outputText value="#{d.id}"/>
                                 </p:column>
-                                <p:column headerText="Nome">
+                                <p:column headerText="Nome" filterBy="#{d.nome}">
                                     <h:outputText value="#{d.nome}" style="text-transform: uppercase;"/>
                                 </p:column>
-                                <p:column headerText="Telefone" style="text-align: center; width: 100px;">
+                                <p:column headerText="Telefone" filterBy="#{d.telefone}" style="text-align: center; width: 120px;">
                                     <h:outputText value="#{d.telefone}"/>
                                 </p:column>
                                 <p:column headerText="Pergunta">
                                     <h:outputText value="#{d.mensagem}"/>
                                 </p:column>
-                                <p:column headerText="Data" style="text-align: center; width: 100px;">
+                                <p:column headerText="Data" style="text-align: center; width: 120px;">
                                     <h:outputText value="#{d.dataRegistro}">
-                                        <f:convertDateTime/>
+                                        <f:convertDateTime type="date" dateStyle="short" locale="pt_BR" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm:ss"/>
                                     </h:outputText>
+                                </p:column>
+                                <p:column headerText="#" style="text-align: center; width: 35px; vertical-align: middle;">
+                                    <i class="fa fa-circle" 
+                                       style="#{empty d.resposta ? 'color: #e6be7e;' : 'color: #00cc00;'} font-size: 25px;"
+                                       title="#{empty d.resposta ? 'Aguardando resposta' : 'Respondido'}"/>
                                 </p:column>
                                 <p:column headerText="#" style="text-align: center; width: 35px;">
                                     <p:commandButton icon="fa fa-edit" actionListener="#{duvidaController.selecionarDuvidas(d)}" update="@(.tabGeral)"/>
@@ -237,23 +282,71 @@
                         <p:outputPanel rendered="#{not empty duvidaController.duvidas}">
                             <div class="fichaGeral">
                                 <h3>
-                                    <h:outputText value="123"/>
+                                    <h:outputText value="#{duvidaController.duvidas.id}"/>
                                     <h:outputText value=" - "/>
-                                    <h:outputText value="456"/>
+                                    <h:outputText value="#{duvidaController.duvidas.nome}"/>
+                                    <div/>
+                                    <h:outputText value="#{duvidaController.duvidas.dataRegistro}">
+                                        <f:convertDateTime type="date" dateStyle="short" locale="pt_BR" timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm:ss"/>
+                                    </h:outputText>
                                 </h3>
                                 <div style="margin: 10px;"/>
                                 <p:outputPanel styleClass="mailform">
-                                    Teste
-                                    <div class="mfControls grid_12">
-                                        <p:commandButton actionListener="#{duvidaController.inicializar()}" 
-                                                         update="@(.tabGeral)" 
-                                                         styleClass="btn" value="Voltar"
-                                                         immediate="true"
-                                                         style="margin-right: 10px;"/>
-                                        <p:commandButton actionListener="#{duvidaController.atualizarDuvidas()}"
-                                                         update="@(.tabGeral,.messages)" 
-                                                         styleClass="btn" value="Salvar"/>
-                                    </div>
+                                    <fieldset class="row">
+                                        <label class="grid_6" style="margin-top: 0px;">
+                                            <span>Nome</span> 
+                                            <p:inputText value="#{duvidaController.duvidas.nome}"
+                                                         label="Nome" required="true"
+                                                         maxlength="256"/>
+                                        </label>
+                                        <label class="grid_4" style="margin-top: 0px;">
+                                            <span>E-mail</span> 
+                                            <p:inputText value="#{duvidaController.duvidas.email}"
+                                                         label="E-mail"
+                                                         onkeyup="mascara(this, email);"
+                                                         maxlength="256"/>
+                                        </label>
+                                        <label class="grid_2" style="margin-top: 0px;">
+                                            <span>Telefone</span> 
+                                            <p:inputText value="#{duvidaController.duvidas.telefone}"
+                                                         label="Telefone" required="true"
+                                                         onkeyup="mascara(this, telefone);"
+                                                         maxlength="15"/>
+                                        </label>
+                                        <label class="grid_12" style="margin-top: 0px;">
+                                            <span>Dúvida</span> 
+                                            <p:inputTextarea value="#{duvidaController.duvidas.mensagem}"
+                                                             label="Dúvida"
+                                                             maxlength="5000"/>
+                                        </label>
+                                        <br style="clear: both;"/>
+                                        <hr/>
+                                        <p:outputPanel styleClass="notes">
+                                            <label class="grid_12" style="margin-top: 0px;">
+                                                <span>Resposta</span> 
+                                                <p:inputTextarea value="#{duvidaController.duvidas.resposta}"
+                                                                 label="Resposta"
+                                                                 maxlength="5000"/>
+                                            </label>
+
+                                            <label class="grid_2">
+                                                <span>Exibir publicamente</span> 
+                                                <p:selectBooleanButton offLabel="Não" onLabel="Sim"
+                                                                       value="#{duvidaController.duvidas.visivel}"
+                                                                       title="Esta opção permiti a visualização desta junto a listagem de perguntas e respostas"/>
+                                            </label>                                        
+                                        </p:outputPanel>
+                                        <div class="mfControls grid_12">
+                                            <p:commandButton actionListener="#{duvidaController.inicializar()}" 
+                                                             update="@(.tabGeral)" 
+                                                             styleClass="btn" value="Voltar"
+                                                             immediate="true"
+                                                             style="margin-right: 10px;"/>
+                                            <p:commandButton actionListener="#{duvidaController.atualizarDuvidas()}"
+                                                             update=":formGeral" 
+                                                             styleClass="btn" value="Salvar"/>
+                                        </div>
+                                    </fieldset>
                                 </p:outputPanel>
                             </div>
                         </p:outputPanel>

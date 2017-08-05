@@ -83,9 +83,14 @@ public class PessoaBean {
     }
 
     public List<PessoaFicha> listarPessoaFicha(final EnumStatus status) {
-        return em.createQuery("select o from PessoaFicha o where o.status = :status").
-                setParameter("status", status).
-                getResultList();
+        if (status.equals(EnumStatus.TODOS)) {
+            return em.createQuery("select o from PessoaFicha o order by o.dataRegistro desc").
+                    getResultList();
+        } else {
+            return em.createQuery("select o from PessoaFicha o where o.status = :status order by o.dataRegistro desc").
+                    setParameter("status", status).
+                    getResultList();
+        }
     }
 
     public List<PessoaAgenda> listarPessoaAgenda(final PessoaFicha pf, Boolean ativo) {

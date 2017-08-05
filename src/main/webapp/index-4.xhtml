@@ -18,14 +18,15 @@
                 <div style="width: 100%; padding: 10px 0;">
                     <ul class="map_locations">
                         <ui:repeat value="#{pessoaController.listaPessoaFicha}" var="pf">
-                            <li data-x="#{pf.latitude}" data-y="#{pf.longitude}">
+                            <li data-x="#{pf.longitude}" data-y="#{pf.latitude}">
                                 <p>
                                     <div style="width: 100%; padding: 10px; margin: 2px 0; border: 1px solid #ccc;">
-                                        <p style="font-weight: bold">#{pf.nome}</p>
+                                        <p style="font-weight: bold; text-transform: uppercase;">#{pf.nome}</p>
                                         <div>
                                             <h:outputText value="#{pf.endereco}, #{pf.numero} - #{pf.bairro} - #{pf.cidade}-#{pf.uf}"/>
                                             <div/>
-                                            <h:outputText value="#{pf.telefone} - #{pf.email}"/>
+                                            <h:outputText value="#{pf.telefone} - #{pf.email}"
+                                                          style="text-transform: lowercase;"/>
                                         </div>
                                     </div>
                                 </p>

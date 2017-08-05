@@ -17,6 +17,7 @@ import br.com.gallie.utils.WebUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -84,11 +85,8 @@ public class PessoaController implements Serializable {
                 this.informacao = "Seu cadastro foi registrado, aguarde que entrare-mos em contato com você "
                         + "o mais breve possível.";
                 //
+                pessoaFicha = new PessoaFicha();
             }
-            pessoaFicha = null;
-            final ProcessoController pc = WebUtil.managedBean(ProcessoController.class);
-            pc.selecionarProcesso(pc.getProcesso(), pc.getIndex(), pc.getStatus());
-            //
             WebUtil.messageInfo("Realizado com sucesso");
         } catch (Exception ex) {
             WebUtil.messageErro(ex.getMessage());
@@ -139,6 +137,7 @@ public class PessoaController implements Serializable {
 
     public void novaPessoaAnotacao() {
         this.pessoaAnotacao = new PessoaAnotacao();
+        this.pessoaAnotacao.setDataRegistro(new Date());
         this.pessoaAnotacao.setPessoaFicha(pessoaFicha);
     }
 
